@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: "If you use this code or the reported results, please cite the accompanying paper."
+title: "mpc-gap-citylearn: decomposing the MPC performance gap in building energy management"
+type: software
+version: 1.0.0
+date-released: 2026-09-03
+license: MIT
+repository-code: "https://github.com/dvoitekh/mpc-gap-citylearn"
+authors:
+  - family-names: Voitekh
+    given-names: Dmytro
+    orcid: "https://orcid.org/0009-0003-8997-5495"
+  - family-names: Tymoshenko
+    given-names: Anatolii
+    orcid: "https://orcid.org/0000-0003-0954-3186"
+preferred-citation:
+  type: article
+  title: "Decomposing the Model Predictive Control Performance Gap in Building Energy Management"
+  authors:
+    - family-names: Voitekh
+      given-names: Dmytro
+    - family-names: Tymoshenko
+      given-names: Anatolii
+  year: 2026
+  notes: "Manuscript under review."

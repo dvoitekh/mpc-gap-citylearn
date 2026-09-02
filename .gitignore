@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# Trained models (download from the GitHub release or retrain, see models/README.md)
+models/*.pkl
+models/*.pt
+models/*.npz
+models/*.txt
+
+# Run artefacts
+*.log
+nohup.out
+experiments/bench_data.npz
+
+# OS / editors
+.DS_Store
+.idea/
+.vscode/

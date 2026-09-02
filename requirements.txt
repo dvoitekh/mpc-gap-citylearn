@@ -1,0 +1,18 @@
+# Pinned to the versions used for all reported results (Python 3.12.8).
+numpy==2.3.2
+pandas==2.2.3
+scipy==1.16.1
+joblib==1.5.1
+matplotlib==3.10.5
+
+# CityLearn simulation framework (CityLearn 2022 Challenge dataset)
+CityLearn==2.2b0
+
+# Optimization: perfect-foresight LP and stochastic MPC
+cvxpy==1.8.1
+clarabel==0.11.1
+
+# Forecasting
+scikit-learn==1.7.1
+lightgbm==4.6.0
+optuna==4.7.0

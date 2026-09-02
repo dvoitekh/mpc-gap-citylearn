@@ -1,0 +1,57 @@
+======================================================================
+PHASE 3: DECISION-FOCUSED RETRAINING (DFR)
+======================================================================
+
+--- Loading saved models for evaluation ---
+
+--- MPC Evaluation ---
+
+  Evaluating NN-MSE...
+  Step 500/2880 (112.4s)
+  Step 1000/2880 (231.6s)
+  Step 1500/2880 (348.4s)
+  Step 2000/2880 (463.1s)
+  Step 2500/2880 (580.2s)
+  Done in 668.7s. Score=0.8817
+    Phase 1: 0.8817
+  Step 500/2880 (118.6s)
+  Step 1000/2880 (254.5s)
+  Step 1500/2880 (417.7s)
+  Step 2000/2880 (566.0s)
+  Step 2500/2880 (753.4s)
+  Done in 876.6s. Score=0.9315
+    Phase 2: 0.9315
+  Step 500/3000 (339.6s)
+  Step 1000/3000 (687.7s)
+  Step 1500/3000 (1043.9s)
+  Step 2000/3000 (1390.7s)
+  Step 2500/3000 (1750.0s)
+  Done in 2105.9s. Score=0.8382
+    Phase 3: 0.8382
+  NN-MSE Weighted Score: 0.8749
+
+  Evaluating NN-DFL...
+  Step 500/2880 (109.5s)
+  Step 1000/2880 (223.6s)
+  Step 1500/2880 (339.5s)
+  Step 2000/2880 (453.9s)
+  Step 2500/2880 (570.2s)
+  Done in 657.6s. Score=0.8855
+    Phase 1: 0.8855
+  Step 500/2880 (109.4s)
+  Step 1000/2880 (222.4s)
+  Step 1500/2880 (337.6s)
+  Step 2000/2880 (451.8s)
+  Step 2500/2880 (567.6s)
+  Done in 656.8s. Score=0.9189
+    Phase 2: 0.9189
+  Step 500/3000 (334.4s)
+  Step 1000/3000 (678.5s)
+  Step 1500/3000 (1025.3s)
+  Step 2000/3000 (1369.7s)
+  Step 2500/3000 (1730.6s)
+  Done in 2081.3s. Score=0.8281
+    Phase 3: 0.8281
+  NN-DFL Weighted Score: 0.8669
+
+Total time: 117.6 minutes

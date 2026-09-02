@@ -1,0 +1,103 @@
+{
+  "note": "Single-threaded timing benchmark (OMP_NUM_THREADS=1), identical library versions on both machines; script: experiments/run_bench_edge.py",
+  "orange_pi_5_pro": {
+    "host": "orange_pi_5_pro",
+    "machine": "aarch64",
+    "python": "3.13.5",
+    "omp_threads": "1",
+    "cvxpy": "1.8.1",
+    "clarabel": "0.11.1",
+    "lightgbm": "4.6.0",
+    "sklearn": "1.7.1",
+    "numpy": "2.3.2",
+    "lgb": {
+      "model_load_s": 1.07,
+      "rss_after_load_mb": 296.4,
+      "n_features": 449,
+      "predict_per_building_ms": {
+        "median": 59.7,
+        "min": 59.2,
+        "max": 70.2
+      }
+    },
+    "ols": {
+      "update_us": 11.0
+    },
+    "mpc": {
+      "I=1": {
+        "times_s": [
+          1.331,
+          1.512,
+          1.307
+        ],
+        "median_s": 1.331
+      },
+      "I=5": {
+        "times_s": [
+          3.488,
+          3.465,
+          3.647
+        ],
+        "median_s": 3.488
+      },
+      "I=15": {
+        "times_s": [
+          12.069,
+          11.798,
+          12.236
+        ],
+        "median_s": 12.069
+      }
+    }
+  },
+  "apple_m1_pro": {
+    "host": "apple_m1_pro",
+    "machine": "arm64",
+    "python": "3.12.8",
+    "omp_threads": "1",
+    "cvxpy": "1.8.1",
+    "clarabel": "0.11.1",
+    "lightgbm": "4.6.0",
+    "sklearn": "1.7.1",
+    "numpy": "2.3.2",
+    "lgb": {
+      "model_load_s": 0.37,
+      "rss_after_load_mb": 275.0,
+      "n_features": 449,
+      "predict_per_building_ms": {
+        "median": 25.1,
+        "min": 23.8,
+        "max": 33.1
+      }
+    },
+    "ols": {
+      "update_us": 4.3
+    },
+    "mpc": {
+      "I=1": {
+        "times_s": [
+          0.984,
+          0.862,
+          0.737
+        ],
+        "median_s": 0.862
+      },
+      "I=5": {
+        "times_s": [
+          1.95,
+          2.155,
+          1.78
+        ],
+        "median_s": 1.95
+      },
+      "I=15": {
+        "times_s": [
+          5.745,
+          5.504,
+          5.806
+        ],
+        "median_s": 5.745
+      }
+    }
+  }
+}

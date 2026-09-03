@@ -1,7 +1,7 @@
 # mpc-gap-citylearn
 
 Code, trained models and raw results for the paper
-**"Decomposing the Model Predictive Control Performance Gap in Building Energy Management"**
+**"Decomposing the Model Predictive Control Performance Gap in Edge-Deployed Building Energy Management"**
 (D. Voitekh, A. Tymoshenko; manuscript under review).
 
 When an online model predictive controller (MPC) for residential battery storage falls

@@ -14,7 +14,7 @@ paper and the original 2022 competition score (`official_*`).
 
 | File | Configuration |
 |---|---|
-| `verify_lp.json` | full-horizon LP with perfect foresight (`perfect_foresight_lp.py`) |
+| `verify_lp.json` | full-horizon LP with perfect foresight (`mpcgap/perfect_foresight_lp.py`) |
 | `verify_mpc_perfect.json` | MPC + perfect forecast, S = 5, sigma = 0.3, no action smoothing |
 | `verify_mpc_perfect_s1.json` | MPC + perfect forecast, deterministic (S = 1) |
 | `verify_mpc_perfect_smooth.json` | MPC + perfect forecast with action smoothing 0.1 |
@@ -45,11 +45,11 @@ trained without the ten buildings that appear only in Phase 3.
 
 * `noise_sensitivity_results.txt`: scenario-noise sweep, MPC + LightGBM (`experiments/run_noise_sensitivity.py`).
 * `scenario_sensitivity_results.txt`: scenario-count sweep (`experiments/run_scenario_sensitivity.py`).
-* `experiment_results.txt`: an earlier full-suite run (`run_experiments.py`) that also contains
+* `experiment_results.txt`: an earlier full-suite run (`experiments/run_all.py`) that also contains
   the Hybrid (LightGBM load / Persistence solar) and 4-hour re-optimization variants. Its
   reference scores differ from the `verify_*` runs by up to 0.002 because each batch draws
   its own MPC scenarios; ablation deltas are always paired within a batch.
 * `dfl_eval_results.txt`: three-phase evaluation of the neural MSE and decision-focused
-  forecasters (`dfl_surrogate.py --eval-only`).
+  forecasters (`experiments/dfl_surrogate.py --eval-only`).
 * `verify_edge_orangepi.json`: single-core timing benchmark on an Orange Pi 5 Pro
   (RK3588S) and an Apple M1 Pro (`experiments/run_bench_edge.py`).

@@ -13,18 +13,18 @@ score by about 0.001.
 Either download the released models into `models/` (see `models/README.md`) or train them:
 
 ```bash
-python lgb_train.py --quick                    # models/lgb_models.pkl, ~13 min
+python -m mpcgap.lgb_train --quick             # models/lgb_models.pkl, ~13 min
 python -m experiments.run_train_days240        # models/lgb_models_days240.pkl
 python -m experiments.run_train_noweather      # models/lgb_models_noweather.pkl
-python lgb_train.py --quick --exclude-phase3 --output models/lgb_models_no_p3.pkl
+python -m mpcgap.lgb_train --quick --exclude-phase3 --output models/lgb_models_no_p3.pkl
 ```
 
 ## 1. Baseline and perfect-foresight reference
 
 | Paper item | Command | Output | Time |
 |---|---|---|---|
-| No-control baseline (all metrics 1.0) | `python evaluate_full.py` | stdout | 2 min |
-| LP perfect foresight by phase and metric | `python perfect_foresight_lp.py` | `results/verify_lp.json` | 6 min |
+| No-control baseline (all metrics 1.0) | `python -m mpcgap.evaluate_full` | stdout | 2 min |
+| LP perfect foresight by phase and metric | `python -m mpcgap.perfect_foresight_lp` | `results/verify_lp.json` | 6 min |
 
 ## 2. Online MPC with every forecaster (main results table, per-metric table, gap decomposition)
 
@@ -52,13 +52,13 @@ receding-horizon / forecasting split.
 | Scenario count (S = 1, 5, 10, 15) | `python -m experiments.run_scenario_sensitivity` (~6 h) |
 
 The remaining controller variants are keyword arguments of `run_mpc_phase` in
-`online_mpc.py` and were evaluated with the same three-phase loop as
+`mpcgap/online_mpc.py` and were evaluated with the same three-phase loop as
 `experiments/run_verify_mpc.py`:
 
 ```python
-from evaluate_full import PHASES
-from online_mpc import run_mpc_phase
-from lgb_forecaster import LGBForecaster
+from mpcgap.evaluate_full import PHASES
+from mpcgap.online_mpc import run_mpc_phase
+from mpcgap.lgb_forecaster import LGBForecaster
 
 phase = PHASES[0]
 fc = LGBForecaster(len(phase['buildings']), sim_start=phase['sim_start'],
@@ -78,20 +78,20 @@ run_mpc_phase(phase['buildings'], phase['sim_start'], phase['sim_end'], fc,
 | LightGBM + Persistence average | `run_verify_mpc lgb_avg` |
 | Weather-feature ablation | `run_train_noweather`, then `run_verify_mpc lgb_noweather` |
 | Temporal overlap (train on days 0-238) | `run_train_days240`, then `run_verify_mpc lgb_days240` |
-| Building overlap (no Phase-3 buildings in training) | `lgb_train.py --quick --exclude-phase3 ...`, then `run_verify_multiseed lgb_noleak` |
-| Hybrid (LightGBM load, Persistence solar) | `forecasters.HybridForecaster` |
-| Horizon-blended (LightGBM h <= 12, Persistence beyond) | `forecasters.HorizonBlendedForecaster` |
+| Building overlap (no Phase-3 buildings in training) | `mpcgap.lgb_train --quick --exclude-phase3 ...`, then `run_verify_multiseed lgb_noleak` |
+| Hybrid (LightGBM load, Persistence solar) | `mpcgap.forecasters.HybridForecaster` |
+| Horizon-blended (LightGBM h <= 12, Persistence beyond) | `mpcgap.forecasters.HorizonBlendedForecaster` |
 | No online correction / solar correction / 30-day window | `LGBForecaster(online_correction=False)`, `correct_solar=True`, `correction_window=30` |
-| Sparse-lag feature set | earlier feature-builder revision with four lags (h-1, h-24, h-48, h-168) instead of `N_LAGS = 168` in `lgb_feature_engineering.py`; retrain with `lgb_train.py --quick` |
-| Feature importance | `lgb_train.get_feature_importance` on `models/lgb_models.pkl` |
-| Decision-focused learning | `python dfl_surrogate.py` (data generation + training, ~2 h), then `python dfl_surrogate.py --eval-only` (~2 h) |
+| Sparse-lag feature set | earlier feature-builder revision with four lags (h-1, h-24, h-48, h-168) instead of `N_LAGS = 168` in `mpcgap/lgb_feature_engineering.py`; retrain with `python -m mpcgap.lgb_train --quick` |
+| Feature importance | `mpcgap.lgb_train.get_feature_importance` on `models/lgb_models.pkl` |
+| Decision-focused learning | `python -m experiments.dfl_surrogate` (data generation + training, ~2 h), then `python -m experiments.dfl_surrogate --eval-only` (~2 h) |
 
 ## 5. Forecast accuracy tables
 
 ```bash
 python -m experiments.run_forecast_metrics     # Phase 2: MAPE, MAE, sMAPE (load and solar)
 python -m experiments.run_peak_metrics         # all phases, peak hours, executed horizons
-python lgb_evaluate.py --forecast              # per-horizon MAPE (also cached for figures)
+python -m mpcgap.lgb_evaluate --forecast       # per-horizon MAPE (also cached for figures)
 ```
 
 ## 6. Multi-seed reproducibility and paired tests
@@ -110,8 +110,8 @@ python -m experiments.run_bench_edge --prepare   # extracts one 24 h window into
 OMP_NUM_THREADS=1 python -m experiments.run_bench_edge
 ```
 
-Copy `experiments/run_bench_edge.py`, `experiments/bench_data.npz`, `online_mpc.py`
-and `models/lgb_models.pkl` to the target device with the same directory layout;
+Copy `experiments/run_bench_edge.py`, `experiments/bench_data.npz`, the `mpcgap/`
+package and `models/lgb_models.pkl` to the target device with the same directory layout;
 the benchmark needs only numpy, pandas, cvxpy, clarabel, lightgbm, scikit-learn and joblib.
 
 ## 8. Figures

@@ -18,8 +18,8 @@ Usage (from the repository root):
     python -m experiments.run_bench_edge --prepare   # once, needs CityLearn: writes experiments/bench_data.npz
     python -m experiments.run_bench_edge             # prints a JSON report to stdout
 
-To benchmark another device, copy this file, experiments/bench_data.npz,
-online_mpc.py and models/lgb_models.pkl to it, keeping the same layout.
+To benchmark another device, copy this file, experiments/bench_data.npz, the
+mpcgap/ package and models/lgb_models.pkl to it, keeping the same layout.
 """
 import os
 os.environ.setdefault("OMP_NUM_THREADS", "1")
@@ -42,7 +42,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 
 
 def make_stub_modules():
-    """Stub citylearn.data and forecasters so online_mpc.py imports cleanly."""
+    """Stub citylearn.data so that mpcgap.online_mpc imports without CityLearn."""
     citylearn = types.ModuleType("citylearn")
     citylearn_data = types.ModuleType("citylearn.data")
 
@@ -53,21 +53,14 @@ def make_stub_modules():
 
     citylearn_data.DataSet = DataSet
     citylearn.data = citylearn_data
-    forecasters = types.ModuleType("forecasters")
-
-    class BaseForecaster:
-        pass
-
-    forecasters.BaseForecaster = BaseForecaster
     sys.modules["citylearn"] = citylearn
     sys.modules["citylearn.data"] = citylearn_data
-    sys.modules["forecasters"] = forecasters
 
 
 def bench_mpc(data, repeats=3):
     make_stub_modules()
     sys.path.insert(0, os.path.join(HERE, ".."))
-    from online_mpc import OnlineMPC
+    from mpcgap.online_mpc import OnlineMPC
 
     results = {}
     rng = np.random.RandomState(0)
@@ -153,8 +146,8 @@ def prepare_bench_data(path):
     import pandas as pd
     sys.path.insert(0, os.path.join(HERE, ".."))
     from citylearn.data import DataSet
-    from evaluate_full import PHASES
-    from run_experiments import load_building_data
+    from mpcgap.evaluate_full import PHASES
+    from mpcgap.data import load_building_data
 
     load_data, solar_data = load_building_data()
     phase = PHASES[2]

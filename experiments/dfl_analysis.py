@@ -10,9 +10,9 @@ import pandas as pd
 import time
 from citylearn.data import DataSet
 
-from evaluate_full import PHASES
-from online_mpc import run_mpc_phase
-from forecasters import (PerfectForecaster, PersistenceForecaster,
+from mpcgap.evaluate_full import PHASES
+from mpcgap.online_mpc import run_mpc_phase
+from mpcgap.forecasters import (PerfectForecaster, PersistenceForecaster,
                           HoltWintersForecaster, WeeklySeasonalityForecaster,
                           compute_forecast_mape)
 
@@ -222,7 +222,7 @@ def main():
     # Try to add LGB
     import os
     if os.path.exists('models/lgb_models.pkl'):
-        from lgb_forecaster import LGBForecaster
+        from mpcgap.lgb_forecaster import LGBForecaster
         building_names_p2 = [f'Building_{i}' for i in range(1, 6)]
         forecasters['LightGBM'] = {
             'make': lambda n, s=0: LGBForecaster(n, sim_start=s,

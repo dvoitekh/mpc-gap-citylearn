@@ -32,9 +32,9 @@ import sys
 import time
 import json
 
-from evaluate_full import PHASES
-from online_mpc import run_mpc_phase
-from forecasters import (
+from mpcgap.evaluate_full import PHASES
+from mpcgap.online_mpc import run_mpc_phase
+from mpcgap.forecasters import (
     PersistenceForecaster, HoltWintersForecaster,
     WeeklySeasonalityForecaster, EnsembleForecaster,
 )
@@ -54,33 +54,33 @@ def make_forecaster(kind, n_buildings, sim_start, phase_buildings):
             HoltWintersForecaster(n_buildings),
         ])
     if kind == 'lgb':
-        from lgb_forecaster import LGBForecaster
+        from mpcgap.lgb_forecaster import LGBForecaster
         return LGBForecaster(n_buildings, sim_start=sim_start,
                              building_names=phase_buildings)
     if kind == 'lgb_noweather':
-        from lgb_forecaster import LGBForecaster
+        from mpcgap.lgb_forecaster import LGBForecaster
         return LGBForecaster(n_buildings, sim_start=sim_start,
                              building_names=phase_buildings,
                              model_path='models/lgb_models_noweather.pkl')
     if kind == 'lgb_days240_tt':
-        from lgb_forecaster import LGBForecaster
+        from mpcgap.lgb_forecaster import LGBForecaster
         return LGBForecaster(n_buildings, sim_start=sim_start,
                              building_names=phase_buildings,
                              model_path='models/lgb_models_days240_tt.pkl')
     if kind == 'lgb_days240':
-        from lgb_forecaster import LGBForecaster
+        from mpcgap.lgb_forecaster import LGBForecaster
         return LGBForecaster(n_buildings, sim_start=sim_start,
                              building_names=phase_buildings,
                              model_path='models/lgb_models_days240.pkl')
     if kind == 'lgb_avg':
-        from lgb_forecaster import LGBForecaster
+        from mpcgap.lgb_forecaster import LGBForecaster
         return EnsembleForecaster([
             LGBForecaster(n_buildings, sim_start=sim_start,
                           building_names=phase_buildings),
             PersistenceForecaster(n_buildings),
         ])
     if kind == 'perfect':
-        from run_experiments import create_perfect_forecaster_factory
+        from mpcgap.data import create_perfect_forecaster_factory
         global _PERFECT_FACTORY
         if _PERFECT_FACTORY is None:
             _PERFECT_FACTORY = create_perfect_forecaster_factory()

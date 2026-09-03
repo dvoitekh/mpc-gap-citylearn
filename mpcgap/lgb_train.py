@@ -12,10 +12,10 @@ All released models were trained with --quick, i.e. with the hyperparameters
 published by the CityLearn 2022 winning solution and no search.
 
 Usage:
-    python lgb_train.py --quick          # published hyperparameters, no search (~13 min)
-    python lgb_train.py                  # Optuna search (100 trials) + training
-    python lgb_train.py --n-trials 20    # fewer Optuna trials
-    python lgb_train.py --quick --exclude-phase3 --output models/lgb_models_no_p3.pkl
+    python -m mpcgap.lgb_train --quick          # published hyperparameters, no search (~13 min)
+    python -m mpcgap.lgb_train                  # Optuna search (100 trials) + training
+    python -m mpcgap.lgb_train --n-trials 20    # fewer Optuna trials
+    python -m mpcgap.lgb_train --quick --exclude-phase3 --output models/lgb_models_no_p3.pkl
 """
 
 import os
@@ -31,7 +31,7 @@ import optuna
 from sklearn.multioutput import MultiOutputRegressor
 from sklearn.metrics import mean_absolute_percentage_error
 
-from lgb_feature_engineering import FeatureBuilder, get_feature_columns, get_target_columns
+from mpcgap.lgb_feature_engineering import FeatureBuilder, get_feature_columns, get_target_columns
 
 warnings.filterwarnings('ignore')
 optuna.logging.set_verbosity(optuna.logging.WARNING)

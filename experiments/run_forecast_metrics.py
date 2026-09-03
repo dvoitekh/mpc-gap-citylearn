@@ -9,12 +9,12 @@ Output: results/forecast_metrics_results.txt
 """
 
 import numpy as np
-from run_experiments import load_building_data
-from forecasters import (
+from mpcgap.data import load_building_data
+from mpcgap.forecasters import (
     PerfectForecaster, PersistenceForecaster, HoltWintersForecaster,
     WeeklySeasonalityForecaster, EnsembleForecaster,
 )
-from lgb_forecaster import LGBForecaster
+from mpcgap.lgb_forecaster import LGBForecaster
 
 
 def compute_forecast_metrics(forecaster, load_truth, solar_truth, n_buildings, warmup=48):

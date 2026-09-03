@@ -11,9 +11,9 @@ Output: results/scenario_sensitivity_results.txt
 import time
 import numpy as np
 
-from evaluate_full import PHASES
-from online_mpc import run_mpc_phase
-from run_experiments import make_lgb_forecaster
+from mpcgap.evaluate_full import PHASES
+from mpcgap.online_mpc import run_mpc_phase
+from mpcgap.data import make_lgb_forecaster
 
 
 def make_lgb(n_buildings, sim_start=0):

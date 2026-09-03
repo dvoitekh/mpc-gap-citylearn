@@ -15,8 +15,8 @@ import time
 
 import joblib
 
-from lgb_train import build_training_data, train_single_model, get_feature_importance
-from lgb_feature_engineering import (get_feature_columns, WEATHER_ACTUAL,
+from mpcgap.lgb_train import build_training_data, train_single_model, get_feature_importance
+from mpcgap.lgb_feature_engineering import (get_feature_columns, WEATHER_ACTUAL,
                                      _weather_future_cols)
 
 

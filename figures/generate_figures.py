@@ -83,6 +83,7 @@ FORECAST_MAPE = {
     'Holt-Winters':{'load': 100.8, 'solar': 69.1},
     'Weekly':      {'load': 87.7, 'solar': 64.3},
     'Ensemble':    {'load': 73.7, 'solar': 55.7},
+    'LGB+Pers. avg': {'load': 73.5, 'solar': 51.4},
 }
 
 # MPC scores for scatter plot (verified, with smoothing)
@@ -93,6 +94,7 @@ MPC_SCORES = {
     'Holt-Winters': 0.853,
     'Weekly':       0.866,
     'Ensemble':     0.839,
+    'LGB+Pers. avg': 0.830,
 }
 
 # LGB per-horizon load MAPE (h=1..24), measured on Phase 2
@@ -151,10 +153,10 @@ def compute_horizon_mape():
     """Compute per-horizon MAPE for LGB, Persistence, and HW on Phase 2 data."""
     sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
-    from lgb_evaluate import evaluate_forecast_by_horizon
-    from run_experiments import load_building_data
-    from forecasters import PersistenceForecaster, HoltWintersForecaster
-    from lgb_forecaster import LGBForecaster
+    from mpcgap.lgb_evaluate import evaluate_forecast_by_horizon
+    from mpcgap.data import load_building_data
+    from mpcgap.forecasters import PersistenceForecaster, HoltWintersForecaster
+    from mpcgap.lgb_forecaster import LGBForecaster
 
     print("Computing per-horizon MAPE (Phase 2)...")
 
@@ -231,10 +233,28 @@ def fig1_gap_decomposition():
         ax.text(bar.get_x() + bar.get_width() / 2, bar.get_height() + 0.012,
                 f'{score:.3f}', ha='center', va='bottom', fontsize=8, fontweight='bold')
 
+    # Gap decomposition annotation: LP -> MPC+Perfect (receding horizon),
+    # MPC+Perfect -> MPC+LGB+Pers. avg (forecasting)
+    lp, perf, best = 0.6644, 0.7046, 0.8301   # unrounded weighted scores (results/verify_*.json)
+    ax.hlines([lp, perf], -0.35, 2.35, colors='#555555', linestyles=':', linewidth=0.8, zorder=1)
+    x_arrow = 1.5
+    arrow = dict(arrowstyle='<->', lw=0.9, color='#222222', shrinkA=0, shrinkB=0)
+    ax.annotate('', xy=(x_arrow, perf), xytext=(x_arrow, lp), arrowprops=arrow)
+    ax.annotate('', xy=(x_arrow, best), xytext=(x_arrow, perf), arrowprops=arrow)
+    total = best - lp
+    box = dict(boxstyle='round,pad=0.3', fc='white', ec='#999999', lw=0.5)
+    leader = dict(arrowstyle='-', lw=0.6, color='#666666')
+    ax.annotate(f'receding horizon\n{perf - lp:.3f} ({100 * (perf - lp) / total:.0f}%)',
+                xy=(x_arrow, (lp + perf) / 2), xytext=(-0.3, 0.93), fontsize=7,
+                ha='left', va='center', arrowprops=leader, bbox=box)
+    ax.annotate(f'forecasting\n{best - perf:.3f} ({100 * (best - perf) / total:.0f}%)',
+                xy=(x_arrow, (perf + best) / 2), xytext=(0.95, 1.02), fontsize=7,
+                ha='left', va='center', arrowprops=leader, bbox=box)
+
     ax.set_xticks(range(len(methods)))
     ax.set_xticklabels(methods, fontsize=7.5)
     ax.set_ylabel('Weighted Score (lower is better)')
-    ax.set_ylim(0.45, 1.08)
+    ax.set_ylim(0.45, 1.10)
     ax.set_title('Performance Gap Decomposition: LP → MPC → Baseline')
 
     plt.tight_layout()
@@ -253,9 +273,9 @@ def fig2_mape_vs_score():
     """Scatter plot: Average MAPE vs MPC Score with correlation."""
     fig, ax = plt.subplots(figsize=(5.0, 3.8))
 
-    names = ['Perfect', 'LightGBM', 'Persistence', 'Holt-Winters', 'Weekly', 'Ensemble']
-    markers = ['*', 'D', 's', '^', 'v', 'o']
-    colors = ['#2196F3', '#FF9800', '#F44336', '#9C27B0', '#795548', '#607D8B']
+    names = ['Perfect', 'LightGBM', 'Persistence', 'Holt-Winters', 'Weekly', 'Ensemble', 'LGB+Pers. avg']
+    markers = ['*', 'D', 's', '^', 'v', 'o', 'P']
+    colors = ['#2196F3', '#FF9800', '#F44336', '#9C27B0', '#795548', '#607D8B', '#00897B']
 
     mapes = []
     scores = []
@@ -270,12 +290,13 @@ def fig2_mape_vs_score():
 
     # Labels positioned carefully to avoid overlap
     label_configs = {
-        'Perfect':      (10, -10),
-        'LightGBM':     (-60, -10),
-        'Persistence':  (-52, 8),
-        'Holt-Winters': (10, -5),
-        'Weekly':       (-20, -16),
-        'Ensemble':     (14, -4),
+        'Perfect':       (10, -10),
+        'LightGBM':      (12, -12),
+        'Persistence':   (-62, 8),
+        'Holt-Winters':  (10, -5),
+        'Weekly':        (8, 6),
+        'Ensemble':      (-58, -12),
+        'LGB+Pers. avg': (-44, -28),
     }
     for i, name in enumerate(names):
         avg_mape = mapes[i]
@@ -289,6 +310,8 @@ def fig2_mape_vs_score():
     from scipy import stats
     r_imp, _ = stats.pearsonr(mapes[1:], scores[1:])
     rho_imp, _ = stats.spearmanr(mapes[1:], scores[1:])
+    print(f"  MAPE vs score over {len(mapes) - 1} practical forecasters: "
+          f"Pearson r = {r_imp:.2f}, Spearman rho = {rho_imp:.2f}")
 
     # Correlation text box
     ax.text(0.97, 0.05,

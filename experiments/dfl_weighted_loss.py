@@ -20,8 +20,8 @@ import lightgbm as lgb
 from sklearn.multioutput import MultiOutputRegressor
 from citylearn.data import DataSet
 
-from lgb_feature_engineering import FeatureBuilder, get_feature_columns, get_target_columns
-from lgb_train import build_training_data, cv_split, compute_mape, CV_FOLDS, TT_LOAD_PARAMS, TT_SOLAR_PARAMS
+from mpcgap.lgb_feature_engineering import FeatureBuilder, get_feature_columns, get_target_columns
+from mpcgap.lgb_train import build_training_data, cv_split, compute_mape, CV_FOLDS, TT_LOAD_PARAMS, TT_SOLAR_PARAMS
 
 warnings.filterwarnings('ignore')
 
@@ -312,9 +312,9 @@ def main():
     # =====================================================
     if args.evaluate:
         print("\n--- MPC Evaluation with Weighted Models ---")
-        from evaluate_full import PHASES
-        from online_mpc import run_mpc_phase
-        from lgb_forecaster import LGBForecaster
+        from mpcgap.evaluate_full import PHASES
+        from mpcgap.online_mpc import run_mpc_phase
+        from mpcgap.lgb_forecaster import LGBForecaster
 
         # Temporarily swap models
         original_path = 'models/lgb_models.pkl'

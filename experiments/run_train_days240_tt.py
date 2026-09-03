@@ -14,9 +14,9 @@ import time
 
 import joblib
 
-from lgb_train import (build_training_data, train_single_model,
+from mpcgap.lgb_train import (build_training_data, train_single_model,
                        get_feature_importance, TT_LOAD_PARAMS, TT_SOLAR_PARAMS)
-from lgb_feature_engineering import get_feature_columns
+from mpcgap.lgb_feature_engineering import get_feature_columns
 
 MAX_DAY = 238
 

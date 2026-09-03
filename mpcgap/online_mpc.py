@@ -15,7 +15,7 @@ import numpy as np
 import cvxpy as cp
 import pandas as pd
 from citylearn.data import DataSet
-from forecasters import BaseForecaster
+from mpcgap.forecasters import BaseForecaster
 
 
 class OnlineMPC:
@@ -307,7 +307,7 @@ def run_mpc_phase(buildings, sim_start, sim_end, forecaster, n_scenarios=5,
         metrics: dict with score, cost, emissions, grid, etc.
     """
     import time
-    from environment import create_env, evaluate_env
+    from mpcgap.environment import create_env, evaluate_env
 
     N = len(buildings)
     config = {

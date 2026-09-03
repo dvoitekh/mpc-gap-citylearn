@@ -9,10 +9,10 @@ Analyses:
 5. Ablation experiments
 
 Usage:
-    python lgb_evaluate.py              # Run all evaluations
-    python lgb_evaluate.py --forecast   # Forecast quality only
-    python lgb_evaluate.py --mpc        # MPC evaluation only
-    python lgb_evaluate.py --ablation   # Ablation study only
+    python -m mpcgap.lgb_evaluate              # Run all evaluations
+    python -m mpcgap.lgb_evaluate --forecast   # Forecast quality only
+    python -m mpcgap.lgb_evaluate --mpc        # MPC evaluation only
+    python -m mpcgap.lgb_evaluate --ablation   # Ablation study only
 """
 
 import os
@@ -24,12 +24,12 @@ import numpy as np
 import pandas as pd
 
 from citylearn.data import DataSet
-from forecasters import (
+from mpcgap.forecasters import (
     PerfectForecaster, PersistenceForecaster, HoltWintersForecaster
 )
-from lgb_forecaster import LGBForecaster
-from run_experiments import load_building_data
-from evaluate_full import PHASES
+from mpcgap.lgb_forecaster import LGBForecaster
+from mpcgap.data import load_building_data
+from mpcgap.evaluate_full import PHASES
 
 warnings.filterwarnings('ignore')
 
@@ -162,7 +162,7 @@ def run_forecast_evaluation():
 
     overall_results = {}
     for name, fc in forecasters.items():
-        from forecasters import compute_forecast_mape
+        from mpcgap.forecasters import compute_forecast_mape
         lm, sm = compute_forecast_mape(fc, load_p2, solar_p2, n_buildings)
         overall_results[name] = (lm, sm)
         print(f"{name:<20} {lm:>10.1f}% {sm:>10.1f}%")
@@ -223,10 +223,10 @@ def run_mpc_evaluation():
     print("=" * 70)
 
     if not os.path.exists('models/lgb_models.pkl'):
-        print("  No trained model found. Run 'python lgb_train.py' first.")
+        print("  No trained model found. Run 'python -m mpcgap.lgb_train --quick' first.")
         return None
 
-    from online_mpc import run_mpc_phase
+    from mpcgap.online_mpc import run_mpc_phase
 
     weighted_score = 0
     phase_results = []
@@ -260,10 +260,10 @@ def run_ablation_study():
     print("=" * 70)
 
     if not os.path.exists('models/lgb_models.pkl'):
-        print("  No trained model found. Run 'python lgb_train.py' first.")
+        print("  No trained model found. Run 'python -m mpcgap.lgb_train --quick' first.")
         return None
 
-    from online_mpc import run_mpc_phase
+    from mpcgap.online_mpc import run_mpc_phase
 
     # Only run on Phase 2 for speed
     phase = PHASES[1]  # Phase 2

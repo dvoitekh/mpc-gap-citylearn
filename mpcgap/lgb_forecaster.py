@@ -17,8 +17,8 @@ import numpy as np
 import pandas as pd
 import joblib
 
-from forecasters import BaseForecaster
-from lgb_feature_engineering import OnlineFeatureBuilder, get_feature_columns
+from mpcgap.forecasters import BaseForecaster
+from mpcgap.lgb_feature_engineering import OnlineFeatureBuilder, get_feature_columns
 
 
 class LGBForecaster(BaseForecaster):

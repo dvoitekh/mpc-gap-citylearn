@@ -17,16 +17,16 @@ import sys
 import time
 import json
 
-from evaluate_full import PHASES
-from online_mpc import run_mpc_phase
-from forecasters import PersistenceForecaster
+from mpcgap.evaluate_full import PHASES
+from mpcgap.online_mpc import run_mpc_phase
+from mpcgap.forecasters import PersistenceForecaster
 
 
 def make(kind, n, sim_start, buildings):
     if kind == 'persistence':
         return PersistenceForecaster(n)
     if kind == 'ensemble':
-        from forecasters import (HoltWintersForecaster,
+        from mpcgap.forecasters import (HoltWintersForecaster,
                                  WeeklySeasonalityForecaster, EnsembleForecaster)
         return EnsembleForecaster([
             PersistenceForecaster(n),
@@ -34,23 +34,23 @@ def make(kind, n, sim_start, buildings):
             HoltWintersForecaster(n),
         ])
     if kind == 'perfect':
-        from run_experiments import create_perfect_forecaster_factory
+        from mpcgap.data import create_perfect_forecaster_factory
         global _PF
         if _PF is None:
             _PF = create_perfect_forecaster_factory()
         return _PF(n, sim_start)
     if kind == 'lgb':
-        from lgb_forecaster import LGBForecaster
+        from mpcgap.lgb_forecaster import LGBForecaster
         return LGBForecaster(n, sim_start=sim_start, building_names=buildings)
     if kind == 'lgb_avg':
-        from lgb_forecaster import LGBForecaster
-        from forecasters import EnsembleForecaster
+        from mpcgap.lgb_forecaster import LGBForecaster
+        from mpcgap.forecasters import EnsembleForecaster
         return EnsembleForecaster([
             LGBForecaster(n, sim_start=sim_start, building_names=buildings),
             PersistenceForecaster(n),
         ])
     if kind == 'lgb_noleak':
-        from lgb_forecaster import LGBForecaster
+        from mpcgap.lgb_forecaster import LGBForecaster
         return LGBForecaster(n, sim_start=sim_start, building_names=buildings,
                              model_path='models/lgb_models_no_p3.pkl')
     raise ValueError(kind)

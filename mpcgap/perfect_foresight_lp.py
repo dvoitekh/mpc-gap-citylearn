@@ -248,7 +248,7 @@ def solve_lp_phase(buildings, sim_start, sim_end, net_load_all, price_full, carb
 
 def evaluate_lp_phase(buildings, sim_start, sim_end, actions):
     """Run simulation with LP actions and evaluate."""
-    from environment import create_env, evaluate_env
+    from mpcgap.environment import create_env, evaluate_env
 
     config = {
         'dataset_name': 'citylearn_challenge_2022_phase_all',

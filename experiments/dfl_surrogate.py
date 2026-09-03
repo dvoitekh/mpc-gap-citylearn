@@ -25,11 +25,11 @@ from torch.utils.data import DataLoader, TensorDataset
 import cvxpy as cp
 from citylearn.data import DataSet
 
-from lgb_feature_engineering import FeatureBuilder, OnlineFeatureBuilder, get_feature_columns, get_target_columns
-from lgb_train import build_training_data
-from evaluate_full import PHASES
-from online_mpc import run_mpc_phase
-from forecasters import BaseForecaster
+from mpcgap.lgb_feature_engineering import FeatureBuilder, OnlineFeatureBuilder, get_feature_columns, get_target_columns
+from mpcgap.lgb_train import build_training_data
+from mpcgap.evaluate_full import PHASES
+from mpcgap.online_mpc import run_mpc_phase
+from mpcgap.forecasters import BaseForecaster
 
 warnings.filterwarnings('ignore')
 

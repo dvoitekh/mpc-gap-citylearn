@@ -17,8 +17,8 @@ import time
 import joblib
 import numpy as np
 
-from lgb_train import build_training_data, train_single_model, get_feature_importance
-from lgb_feature_engineering import get_feature_columns
+from mpcgap.lgb_train import build_training_data, train_single_model, get_feature_importance
+from mpcgap.lgb_feature_engineering import get_feature_columns
 
 MAX_DAY = 238
 

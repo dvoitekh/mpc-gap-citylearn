@@ -7,7 +7,7 @@ Phase 3: Buildings 6-17 (no 12,15), days 240-365 (weight 0.5)
 """
 
 import numpy as np
-from environment import create_env, evaluate_env
+from mpcgap.environment import create_env, evaluate_env
 
 
 PHASES = [

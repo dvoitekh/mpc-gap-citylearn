@@ -15,9 +15,9 @@ import json
 
 import numpy as np
 
-from evaluate_full import PHASES
-from run_experiments import load_building_data
-from forecasters import (PersistenceForecaster, HoltWintersForecaster,
+from mpcgap.evaluate_full import PHASES
+from mpcgap.data import load_building_data
+from mpcgap.forecasters import (PersistenceForecaster, HoltWintersForecaster,
                          WeeklySeasonalityForecaster, EnsembleForecaster)
 
 
@@ -32,7 +32,7 @@ def make(kind, n, sim_start, buildings):
         return EnsembleForecaster([PersistenceForecaster(n),
                                    WeeklySeasonalityForecaster(n),
                                    HoltWintersForecaster(n)])
-    from lgb_forecaster import LGBForecaster
+    from mpcgap.lgb_forecaster import LGBForecaster
     lgb = LGBForecaster(n, sim_start=sim_start, building_names=buildings)
     if kind == 'lgb':
         return lgb

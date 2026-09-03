@@ -50,9 +50,9 @@ os.makedirs(OUT_DIR, exist_ok=True)
 
 
 def main():
-    from run_experiments import load_building_data
-    from lgb_forecaster import LGBForecaster
-    from forecasters import PersistenceForecaster
+    from mpcgap.data import load_building_data
+    from mpcgap.lgb_forecaster import LGBForecaster
+    from mpcgap.forecasters import PersistenceForecaster
 
     print("Loading building data...")
     load_data, solar_data = load_building_data()

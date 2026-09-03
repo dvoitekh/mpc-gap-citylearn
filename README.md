@@ -48,22 +48,31 @@ Further findings, each backed by a script and a result file in this repository:
 ## Repository layout
 
 ```
-environment.py              CityLearn wrapper: environment creation and scoring (v2 and 2022 metrics)
-evaluate_full.py            three-phase evaluation protocol and no-control baseline
-perfect_foresight_lp.py     full-horizon LP with perfect foresight (CVXPY / CLARABEL)
-online_mpc.py               rolling-horizon stochastic MPC with pluggable forecasters
-forecasters.py              Perfect, Persistence, Holt-Winters, Weekly, Ensemble, Hybrid, HorizonBlended
-lgb_feature_engineering.py  449-feature builder (offline and online variants)
-lgb_train.py                LightGBM training (published hyperparameters or optional Optuna search)
-lgb_forecaster.py           LightGBM forecaster with online OLS bias correction
-lgb_evaluate.py             forecast accuracy by horizon, MPC evaluation, feature ablation
-run_experiments.py          full experiment suite in one go
-dfl_*.py                    decision-focused learning experiments (surrogate, analysis, weighted loss)
-experiments/                one script per experiment in the paper (see docs/REPRODUCING.md)
-results/                    raw JSON/text outputs behind every reported number
-figures/                    figure scripts and generated figures
-models/                     trained models (downloaded from the release, see models/README.md)
-docs/REPRODUCING.md         table-by-table reproduction guide with runtimes
+mpcgap/                         library code
+  environment.py                CityLearn wrapper: environment creation and scoring (v2 and 2022 metrics)
+  evaluate_full.py              three-phase evaluation protocol and no-control baseline
+  perfect_foresight_lp.py       full-horizon LP with perfect foresight (CVXPY / CLARABEL)
+  online_mpc.py                 rolling-horizon stochastic MPC with pluggable forecasters
+  forecasters.py                Perfect, Persistence, Holt-Winters, Weekly, Ensemble, Hybrid, HorizonBlended
+  lgb_feature_engineering.py    449-feature builder (offline and online variants)
+  lgb_train.py                  LightGBM training (published hyperparameters or optional Optuna search)
+  lgb_forecaster.py             LightGBM forecaster with online OLS bias correction
+  lgb_evaluate.py               forecast accuracy by horizon, MPC evaluation, feature ablation
+  data.py                       raw dataset access and forecaster factories
+experiments/                    one script per experiment in the paper (see docs/REPRODUCING.md)
+  run_verify_mpc.py             three-phase MPC evaluation of one configuration
+  run_verify_multiseed.py       the same over seeds 2023-2026
+  run_*_sensitivity.py          scenario-noise and scenario-count sweeps
+  run_peak_metrics.py, ...      forecast accuracy on all phases, peak hours, executed horizons
+  run_train_*.py                retraining for the temporal-overlap and weather ablations
+  run_bench_edge.py             single-core timing benchmark
+  dfl_*.py                      decision-focused learning experiments
+  summarize_*.py                tables and seed statistics from results/
+  run_all.py                    full suite in one go
+results/                        raw JSON/text outputs behind every reported number
+figures/                        figure scripts and generated figures
+models/                         trained models (downloaded from the release, see models/README.md)
+docs/REPRODUCING.md             table-by-table reproduction guide with runtimes
 ```
 
 ## Installation
@@ -84,8 +93,8 @@ first use.
 ## Quick start
 
 ```bash
-python evaluate_full.py                              # no-control baseline, ~2 min
-python perfect_foresight_lp.py                       # LP reference, ~6 min
+python -m mpcgap.evaluate_full                       # no-control baseline, ~2 min
+python -m mpcgap.perfect_foresight_lp                # LP reference, ~6 min
 python -m experiments.run_verify_mpc lgb             # MPC + LightGBM on all phases, ~75 min
 python -m experiments.run_verify_mpc lgb_avg         # MPC + LightGBM/Persistence average
 python -m experiments.summarize_results              # tables from results/*.json

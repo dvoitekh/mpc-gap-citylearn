@@ -1,7 +1,7 @@
 # mpc-gap-citylearn
 
 Code, trained models and raw results for the paper
-**"Decomposing the Model Predictive Control Performance Gap in Edge-Deployed Building Energy Management"**
+**"Decomposing the Model Predictive Control Performance Gap in Edge-Deployable Building Energy Management"**
 (D. Voitekh, A. Tymoshenko; manuscript under review).
 
 When an online model predictive controller (MPC) for residential battery storage falls
@@ -34,9 +34,10 @@ forecasting component of 0.125 (about three quarters).
 Further findings, each backed by a script and a result file in this repository:
 
 * Beyond two regularizers that are part of the tuned baseline (action smoothing and
-  scenario noise), none of twenty further modifications of the MPC formulation or the
-  forecasting pipeline improves the score. Averaging the LightGBM and Persistence
-  forecasts does (0.840 to 0.830, consistent over five seeds).
+  scenario noise), only two of twenty further modifications of the MPC formulation or the
+  forecasting pipeline improve the score, both on the forecasting side: averaging the
+  LightGBM and Persistence forecasts (0.840 to 0.830, consistent over five seeds) and
+  pruning the 168-hour lag history to four lags (0.840 to 0.833).
 * Measured on the same data as the score, Persistence is more accurate than LightGBM on
   every accuracy metric tried (MAPE, MAE, peak-hour error, executed-horizon error) and still
   controls worse. Forecasters should be selected in closed loop, not by validation error.

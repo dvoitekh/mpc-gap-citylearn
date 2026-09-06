@@ -26,6 +26,8 @@ paper and the original 2022 competition score (`official_*`).
 | `verify_mpc_lgb_days240.json` | MPC + LightGBM trained on days 0-238 only |
 | `verify_mpc_lgb_days240_tt.json` | same model retrained from scratch (reproducibility check) |
 | `verify_mpc_lgb_noweather.json` | MPC + LightGBM without weather features |
+| `verify_mpc_lgb_sparse.json` | MPC + LightGBM with four sparse lags per signal (h-1, h-24, h-48, h-168) instead of 168 |
+| `verify_sparse_mape.json` | Phase-2 forecast accuracy of the sparse-lag model vs the full model (`run_sparse_mape`) |
 | `verify_mpc_persistence.json`, `verify_mpc_persistence_nosmooth.json` | MPC + Persistence, with / without action smoothing |
 | `verify_mpc_holtwinters.json`, `verify_mpc_weekly.json`, `verify_mpc_ensemble.json` | MPC + Holt-Winters / Weekly / statistical Ensemble |
 

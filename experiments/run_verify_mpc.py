@@ -19,6 +19,7 @@ Forecaster configs:
     lgb_days240    LightGBM trained on days 0-238 only (temporal-overlap check)
     lgb_days240_tt same, retrained from scratch (reproducibility check)
     lgb_noweather  LightGBM without weather features
+    lgb_sparse     LightGBM with four sparse lags per signal instead of 168
 
 Optional suffixes (combinable, e.g. lgb_term10, perfect_s1, persistence_nosmooth):
     _smooth / _nosmooth   force action smoothing on (0.1) / off (0)
@@ -57,6 +58,11 @@ def make_forecaster(kind, n_buildings, sim_start, phase_buildings):
         from mpcgap.lgb_forecaster import LGBForecaster
         return LGBForecaster(n_buildings, sim_start=sim_start,
                              building_names=phase_buildings)
+    if kind == 'lgb_sparse':
+        from mpcgap.lgb_forecaster import LGBForecaster
+        return LGBForecaster(n_buildings, sim_start=sim_start,
+                             building_names=phase_buildings,
+                             model_path='models/lgb_models_sparse.pkl')
     if kind == 'lgb_noweather':
         from mpcgap.lgb_forecaster import LGBForecaster
         return LGBForecaster(n_buildings, sim_start=sim_start,

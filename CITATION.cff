@@ -15,7 +15,7 @@ authors:
     orcid: "https://orcid.org/0000-0003-0954-3186"
 preferred-citation:
   type: article
-  title: "Decomposing the Model Predictive Control Performance Gap in Edge-Deployed Building Energy Management"
+  title: "Decomposing the Model Predictive Control Performance Gap in Edge-Deployable Building Energy Management"
   authors:
     - family-names: Voitekh
       given-names: Dmytro

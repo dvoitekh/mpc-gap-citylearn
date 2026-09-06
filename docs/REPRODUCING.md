@@ -16,6 +16,7 @@ Either download the released models into `models/` (see `models/README.md`) or t
 python -m mpcgap.lgb_train --quick             # models/lgb_models.pkl, ~13 min
 python -m experiments.run_train_days240        # models/lgb_models_days240.pkl
 python -m experiments.run_train_noweather      # models/lgb_models_noweather.pkl
+python -m experiments.run_train_sparse         # models/lgb_models_sparse.pkl
 python -m mpcgap.lgb_train --quick --exclude-phase3 --output models/lgb_models_no_p3.pkl
 ```
 
@@ -77,6 +78,7 @@ run_mpc_phase(phase['buildings'], phase['sim_start'], phase['sim_end'], fc,
 |---|---|
 | LightGBM + Persistence average | `run_verify_mpc lgb_avg` |
 | Weather-feature ablation | `run_train_noweather`, then `run_verify_mpc lgb_noweather` |
+| Sparse-lag feature ablation | `run_train_sparse`, then `run_verify_mpc lgb_sparse` |
 | Temporal overlap (train on days 0-238) | `run_train_days240`, then `run_verify_mpc lgb_days240` |
 | Building overlap (no Phase-3 buildings in training) | `mpcgap.lgb_train --quick --exclude-phase3 ...`, then `run_verify_multiseed lgb_noleak` |
 | Hybrid (LightGBM load, Persistence solar) | `mpcgap.forecasters.HybridForecaster` |
